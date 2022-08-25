@@ -9,3 +9,4 @@ type Movie struct {
 	Description string `json:"description"`
 	Type        string `json:"type"`
 }
+type MovieList []Movie

@@ -76,28 +76,29 @@ func DecodeCookie(req *http.Request, user *User) (*Token, error) {
 }
 
 // ReadCSV helps to read file and format to list
-func ReadCSV(file *multipart.File) (CategoryList, error) {
+func ReadCSV(file *multipart.File) (MovieList, error) {
 	csvReader := csv.NewReader(*file)
 	records, err := csvReader.ReadAll()
 	if err != nil {
 		return nil, err
 	}
 
-	var categorieslist CategoryList
+	var movieslist MovieList
 
 	for _, line := range records[1:] {
-		categorieslist = append(categorieslist, Category{
-			CategoryID:   uuid.New().String(),
-			CategoryName: line[0],
-			IconURL:      line[1],
+		movieslist = append(movieslist, Movie{
+			ID:          int(uuid.New().ID()),
+			Name:        line[0],
+			Description: line[1],
+			Type:        line[2],
 		})
 	}
-	return categorieslist, nil
+	return movieslist, nil
 }
 
-// CompareCategories helps to compare db data and upload file data
-func CompareCategories(db, uploaded *CategoryList) CategoryList {
-	var out CategoryList
+// CompareMovies helps to compare db data and upload file data
+func CompareMovies(db, uploaded *MovieList) MovieList {
+	var out MovieList
 	up := *uploaded
 	d := *db
 
@@ -111,9 +112,9 @@ func CompareCategories(db, uploaded *CategoryList) CategoryList {
 }
 
 // contains checks data is created before
-func contains(clist CategoryList, c Category) bool {
+func contains(clist MovieList, c Movie) bool {
 	for _, v := range clist {
-		if strings.ToLower(v.CategoryName) == strings.ToLower(c.CategoryName) {
+		if strings.ToLower(v.Name) == strings.ToLower(c.Name) {
 			return true
 		}
 	}
