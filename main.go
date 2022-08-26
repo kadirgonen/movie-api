@@ -73,15 +73,15 @@ func main() {
 func getUp(g *gin.Engine, db *gorm.DB, cfg *config.Config) {
 	rootRouter := g.Group(cfg.ServerConfig.RoutePrefix)
 	userRooter := rootRouter.Group("/user")
-	categoryRooter := rootRouter.Group("/category")
+	movieRooter := rootRouter.Group("/movie")
 
 	userRepo := NewUserRepository(db)
 	userService := NewUserService(userRepo)
 	NewUserHandler(userRooter, userService, cfg)
 
-	categoryRepo := NewCategoryRepository(db)
-	categoryService := NewCategoryService(categoryRepo)
-	NewCategoryHandler(categoryRooter, categoryService, cfg)
+	movieRepo := NewMovieRepository(db)
+	movieService := NewMovieService(movieRepo)
+	NewMovieHandler(movieRooter, movieService, cfg)
 }
 
 // HealthCheck checks the db is ready with 10 seconds break
