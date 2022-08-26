@@ -36,7 +36,6 @@ In this application, the member with admin authority will be able to create Movi
 * Gin
 * Postgres
 * JWT
-* Viper
 * Swagger
 * Zap
 
