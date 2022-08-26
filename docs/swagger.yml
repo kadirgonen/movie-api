@@ -1,0 +1,337 @@
+swagger: "2.0"
+info:
+  title: "Movie App"
+  version: "1.0.0"
+  description: "This is a sample Movie server. "
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "kadirgnen3@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+basePath: "/api/v1/movie-api"
+tags:
+  - name: "user"
+    description: "Everything about User"
+  - name: "movie"
+    description: "Everything about Movie"
+schemes:
+  - "https"
+  - "http"
+paths:
+  /user/signup:
+    post:
+      tags:
+        - "user"
+      summary: "Signup user"
+      description: "It works to create new user"
+      operationId: "signupUser"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "User object that needs to be added to the app"
+          required: true
+          schema:
+            $ref: "#/definitions/SignUp"
+      responses:
+        "200":
+          description: "Successful Operation"
+          schema:
+            type: "string"
+            $ref: "#/definitions/ApiResponseSignUp"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        default:
+          description: Generic error response
+          schema:
+            $ref: "#/definitions/ApiResponse"
+  /user/login:
+    post:
+      tags:
+        - "user"
+      summary: "Login user"
+      description: "It works to login on system"
+      operationId: "loginUser"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Login object that needs to be added to the app"
+          required: true
+          schema:
+            $ref: "#/definitions/Login"
+      responses:
+        "200":
+          description: "Successful Operation"
+          schema:
+            type: "string"
+            $ref: "#/definitions/SoleToken"
+        "400":
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        default:
+          description: Generic error response
+          schema:
+            $ref: "#/definitions/ApiResponse"
+  /movie/upload:
+    post:
+      tags:
+        - "movie"
+      summary: "Upload movie"
+      description: "It works for creating bulk movie"
+      operationId: "uploadCategory"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "token"
+          in: "header"
+          type: "string"
+          required: true
+        - name: "file"
+          in: "formData"
+          description: "Upload movie file"
+          required: false
+          type: "file"
+      responses:
+        "200":
+          description: "Successful Operation"
+          schema:
+            type: "string"
+            $ref: "#/definitions/ApiResponse"
+        "401":
+          description: "Status Unauthorized "
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "403":
+          description: "Status Forbidden"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        default:
+          description: Generic error response
+          schema:
+            $ref: "#/definitions/ApiResponse"
+  /movie/?page=num&pagesize=size:
+    get:
+      tags:
+        - "movie"
+      summary: "Get movie list"
+      description: "It works for getting movie list"
+      operationId: "getMovieList"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "page"
+          in: "query"
+          type: "string"
+          required: true
+        - name: "pagesize"
+          in: "query"
+          type: "string"
+          required: true
+      responses:
+        "200":
+          description: "Successful Operation"
+          schema:
+            type: "string"
+            $ref: "#/definitions/Pagination"
+        default:
+          description: Generic error response
+          schema:
+            $ref: "#/definitions/ApiResponse"
+  /movie/create:
+    post:
+      tags:
+        - "movie"
+      summary: "Create movie"
+      description: "It works for creating movie"
+      operationId: "createMovie"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "token"
+          in: "header"
+          type: "string"
+          required: true
+        - in: "body"
+          name: "body"
+          description: "Create movie"
+          required: true
+          schema:
+            $ref: "#/definitions/Movie"
+      responses:
+        "200":
+          description: "Successful Operation"
+          schema:
+            type: "string"
+            $ref: "#/definitions/ApiResponse"
+        default:
+          description: Generic error response
+          schema:
+            $ref: "#/definitions/ApiResponse"
+  /movie/{id}:
+    put:
+      tags:
+        - "movie"
+      summary: "Update movie"
+      description: "It works for updating movie"
+      operationId: "updateMovie"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "token"
+          in: "header"
+          type: "string"
+          required: true
+        - name: "id"
+          in: "path"
+          type: "string"
+          required: true
+        - in: "body"
+          name: "body"
+          description: "Movie object that needs to be updated on system"
+          required: true
+          schema:
+            $ref: "#/definitions/Movie"
+      responses:
+        "200":
+          description: "Successful Operation"
+          schema:
+            type: "string"
+            $ref: "#/definitions/ApiResponse"
+        default:
+          description: Generic error response
+          schema:
+            $ref: "#/definitions/ApiResponse"
+  /movie/getlist?page=num&pagesize=size:
+    delete:
+      tags:
+        - "movie"
+      summary: "Delete movie"
+      description: "It works for deleting movie"
+      operationId: "deleteMovie"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "token"
+          in: "header"
+          type: "string"
+          required: true
+        - name: "id"
+          in: "path"
+          type: "string"
+          required: true
+      responses:
+        "200":
+          description: "Successful Operation"
+          schema:
+            type: "string"
+            $ref: "#/definitions/ApiResponse"
+        "401":
+          description: "Status Unauthorized "
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "403":
+          description: "Status Forbidden"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        default:
+          description: Generic error response
+          schema:
+            $ref: "#/definitions/ApiResponse"
+definitions:
+  SignUp:
+    type: "object"
+    required:
+      - email
+      - password
+      - firstname
+      - lastname
+    properties:
+      firstname:
+        type: "string"
+      lastname:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+  ApiResponseSignUp:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      token:
+        type: "object"
+        $ref: "#/definitions/Token"
+  Token:
+    type: "object"
+    properties:
+      access_token:
+        type: "string"
+      refresh_token:
+        type: "string"
+  SoleToken:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      token:
+        type: "string"
+  ApiResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+      message:
+        type: "string"
+      details:
+        description: a (key, value) map.
+        type: object
+  Login:
+    type: "object"
+    required:
+      - email
+      - password
+    properties:
+      email:
+        type: "string"
+      password:
+        type: "string"
+  Movie:
+    type: "object"
+    required:
+      - "id"
+      - name
+      - description
+      - type
+    properties:
+      id:
+      type: "integer"
+      format: "int"
+      name:
+        type: "string"
+      description:
+        type: "string"
+      type:
+        type: "string"
+  Pagination:
+    properties:
+      items:
+        type: "object"
+      page:
+        type: integer
+      pageCount:
+        type: integer
+      pageSize:
+        type: integer
+      totalCount:
+        type: integer
+      
