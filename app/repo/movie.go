@@ -33,7 +33,7 @@ func (m *MovieRepository) Create(mv *Movie) (*Movie, error) {
 // because id is implemented movie. Here I would like to differentiate usage practices.
 func (m *MovieRepository) Update(mv *Movie, id int) (*Movie, error) {
 	zap.L().Debug("movie.repo.update", zap.Reflect("movie", mv))
-	mv.ID = &id
+	mv.ID = id
 	if err := m.db.Where("id=?", id).Updates(&mv).Error; err != nil {
 		zap.L().Error("movie.repo.update failed to update movie", zap.Error(err))
 		return nil, err

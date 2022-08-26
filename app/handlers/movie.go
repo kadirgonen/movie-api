@@ -4,10 +4,12 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-openapi/strfmt"
 	. "github.com/kadirgonen/movie-api/api/model"
+	. "github.com/kadirgonen/movie-api/api/model/movie"
 	model "github.com/kadirgonen/movie-api/app/models"
 	"github.com/kadirgonen/movie-api/app/pkg/config"
 	. "github.com/kadirgonen/movie-api/app/pkg/errors"
@@ -65,6 +67,7 @@ func (mv *MovieHandler) create(c *gin.Context) {
 // update helps user to update movie by id
 func (mv *MovieHandler) update(c *gin.Context) {
 	id := c.Param("id")
+	a, err := strconv.Atoi(id)
 	var req Movie
 	if err := c.Bind(&req); err != nil {
 		zap.L().Error("movie.handler.update", zap.Error(err))
@@ -76,7 +79,7 @@ func (mv *MovieHandler) update(c *gin.Context) {
 		c.JSON(ErrorResponse(err))
 		return
 	}
-	m, err := mv.movieService.Update(model.ResponseToMovie(req), id)
+	m, err := mv.movieService.Update(model.ResponseToMovie(req), a)
 	if err != nil {
 		zap.L().Error("movie.handler.update", zap.Error(err))
 		c.JSON(ErrorResponse(err))
@@ -90,7 +93,8 @@ func (mv *MovieHandler) update(c *gin.Context) {
 // delete helps user to delete movie by id
 func (mv *MovieHandler) delete(c *gin.Context) {
 	id := c.Param("id")
-	res, err := mv.movieService.Delete(id)
+	a, err := strconv.Atoi(id)
+	res, err := mv.movieService.Delete(a)
 	if err != nil {
 		zap.L().Error("movie.handler.delete", zap.Error(err))
 		c.JSON(ErrorResponse(err))

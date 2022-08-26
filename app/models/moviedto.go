@@ -1,7 +1,7 @@
 package model
 
 import (
-	api "github.com/kadirgonen/movie-api/api/model"
+	api "github.com/kadirgonen/movie-api/api/model/movie"
 )
 
 func ResponseToMovie(m api.Movie) *Movie {
