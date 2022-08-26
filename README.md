@@ -38,7 +38,7 @@ In this application, the member with admin authority will be able to create Movi
 * JWT
 * Viper
 * Swagger
-* Zerolog
+* Zap
 
 ## Acknowledgments
 
